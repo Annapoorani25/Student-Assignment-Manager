@@ -1,0 +1,2972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Assignment Manager</title>
+
+<style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #dbeafe;
+    --paper: #fffdf7;
+    --paper-line: #dbeafe;
+    --text: #172033;
+    --muted: #64748b;
+    --border: #cbd5e1;
+
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+
+    --green: #16a34a;
+    --orange: #f59e0b;
+    --red: #ef4444;
+    --blue: #2563eb;
+
+    --card: rgba(255,255,255,0.92);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        "Trebuchet MS",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+
+    background-color: var(--background);
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 31px,
+            rgba(59,130,246,0.15) 32px
+        );
+
+    transition: 0.3s;
+}
+
+
+/* =====================================================
+   PAPER
+===================================================== */
+
+.page {
+    position: relative;
+
+    min-height: 94vh;
+
+    max-width: 1250px;
+
+    margin: 20px auto;
+
+    padding:
+        40px 45px 70px 85px;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #fffdf7 0px,
+            #fffdf7 31px,
+            #dbeafe 32px
+        );
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 25px 60px
+        rgba(15,23,42,0.18);
+
+    overflow: hidden;
+}
+
+
+/* Red notebook margin */
+
+.page::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 60px;
+
+    width: 2px;
+
+    background:
+        rgba(239,68,68,0.55);
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo {
+    display: inline-block;
+
+    position: relative;
+
+    width: 55px;
+    height: 55px;
+
+    margin-right: 12px;
+
+    vertical-align: middle;
+}
+
+.logo span {
+    position: absolute;
+
+    width: 23px;
+    height: 28px;
+
+    border-radius: 3px;
+
+    box-shadow:
+        2px 3px 5px
+        rgba(0,0,0,0.15);
+}
+
+.logo .green {
+    background: #84cc16;
+
+    left: 7px;
+    top: 0;
+
+    transform: rotate(-6deg);
+}
+
+.logo .pink {
+    background: #ec4899;
+
+    left: 18px;
+    top: 9px;
+
+    transform: rotate(3deg);
+}
+
+.logo .blue {
+    background: #38bdf8;
+
+    left: 29px;
+    top: 18px;
+
+    transform: rotate(7deg);
+}
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+h1 {
+    display: inline;
+
+    vertical-align: middle;
+
+    font-size: 42px;
+
+    font-weight: 700;
+
+    letter-spacing: -1px;
+
+    color: #111827;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+h3 {
+    margin: 0;
+}
+
+p {
+    font-size: 18px;
+
+    line-height: 1.6;
+
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+input,
+select,
+button {
+    font-family:
+        "Trebuchet MS",
+        Arial,
+        sans-serif;
+}
+
+input,
+select {
+    background: white;
+
+    color: var(--text);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 7px;
+
+    padding:
+        8px 10px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(79,70,229,0.12);
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+button {
+    min-height: 36px;
+
+    padding:
+        7px 13px;
+
+    cursor: pointer;
+
+    background: white;
+
+    color: var(--text);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 7px;
+
+    font-weight: 600;
+
+    transition:
+        0.2s;
+}
+
+button:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 4px 10px
+        rgba(15,23,42,0.12);
+}
+
+
+/* =====================================================
+   LOGIN PAGE
+===================================================== */
+
+#loginPage {
+    display: block;
+}
+
+.login-form {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 25px;
+}
+
+.username {
+    width: 280px;
+
+    height: 42px;
+
+    font-size: 17px;
+}
+
+.login-btn {
+    height: 42px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    color: white;
+
+    border: none;
+
+    padding:
+        7px 20px;
+}
+
+.login-btn:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #4338ca,
+            #6d28d9
+        );
+}
+
+
+/* =====================================================
+   ASSIGNMENT PAGE
+===================================================== */
+
+#assignmentPage {
+    display: none;
+}
+
+.topbar {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+.topbar-right {
+    display: flex;
+
+    gap: 8px;
+
+    align-items: center;
+}
+
+.welcome {
+    margin-top: 8px;
+
+    font-size: 18px;
+
+    color: var(--muted);
+}
+
+
+/* =====================================================
+   DARK MODE / LOGOUT
+===================================================== */
+
+.theme-btn {
+    width: 43px;
+
+    font-size: 19px;
+}
+
+.logout-btn {
+    background: #475569;
+
+    color: white;
+
+    border: none;
+}
+
+.logout-btn:hover {
+    background: #334155;
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin:
+        25px 0;
+
+    max-width: 1000px;
+}
+
+.stat-card {
+    position: relative;
+
+    padding: 18px;
+
+    min-height: 105px;
+
+    background:
+        rgba(255,255,255,0.85);
+
+    border:
+        1px solid
+        rgba(148,163,184,0.4);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 6px 15px
+        rgba(15,23,42,0.08);
+}
+
+.stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    right: 13px;
+    top: 13px;
+
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background:
+        var(--primary);
+}
+
+.stat-number {
+    display: block;
+
+    font-size: 31px;
+
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 15px;
+
+    color: var(--muted);
+}
+
+.stat-card.pending
+.stat-number {
+    color: var(--orange);
+}
+
+.stat-card.completed
+.stat-number {
+    color: var(--green);
+}
+
+.stat-card.overdue
+.stat-number {
+    color: var(--red);
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title {
+    font-size: 24px;
+
+    font-weight: 700;
+
+    margin:
+        25px 0 12px;
+}
+
+.section-title::after {
+    content: "";
+
+    display: block;
+
+    width: 75px;
+
+    height: 4px;
+
+    margin-top: 5px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            #ec4899
+        );
+}
+
+
+/* =====================================================
+   ADD ASSIGNMENT
+===================================================== */
+
+.assignment-form {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    max-width: 1100px;
+}
+
+.assignment-form input[type="text"] {
+    width: 230px;
+
+    height: 40px;
+}
+
+.assignment-form input[type="date"] {
+    width: 160px;
+
+    height: 40px;
+}
+
+.assignment-form select {
+    width: 165px;
+
+    height: 40px;
+}
+
+.add-btn {
+    height: 40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5,
+            #7c3aed
+        );
+
+    color: white;
+
+    border: none;
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.tools {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 22px;
+}
+
+.search-box {
+    width: 320px;
+
+    max-width: 100%;
+
+    height: 40px;
+}
+
+.sort-select {
+    height: 40px;
+}
+
+
+/* =====================================================
+   FILTERS
+===================================================== */
+
+.filters {
+    margin-top: 12px;
+}
+
+.filters button {
+    margin:
+        0 5px 5px 0;
+
+    border-radius: 20px;
+}
+
+.filters button.active {
+    background:
+        var(--primary);
+
+    color: white;
+
+    border-color:
+        var(--primary);
+}
+
+
+/* =====================================================
+   ASSIGNMENT CARDS
+===================================================== */
+
+#assignmentList {
+    margin-top: 25px;
+
+    max-width: 950px;
+}
+
+.assignment {
+    position: relative;
+
+    padding:
+        20px;
+
+    margin-bottom:
+        16px;
+
+    background:
+        rgba(255,255,255,0.92);
+
+    border:
+        1px solid
+        rgba(148,163,184,0.45);
+
+    border-radius:
+        10px;
+
+    border-left:
+        6px solid
+        var(--primary);
+
+    box-shadow:
+        4px 6px 0
+        rgba(148,163,184,0.12);
+
+    transition:
+        0.2s;
+}
+
+.assignment:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        7px 12px 25px
+        rgba(15,23,42,0.12);
+}
+
+.assignment.overdue {
+    border-left-color:
+        var(--red);
+}
+
+.assignment.due-soon {
+    border-left-color:
+        var(--orange);
+}
+
+.assignment.completed {
+    border-left-color:
+        var(--green);
+
+    opacity:
+        0.7;
+}
+
+.assignment.completed
+.assignment-title {
+    text-decoration:
+        line-through;
+}
+
+.assignment-title {
+    font-size: 23px;
+
+    font-weight: 700;
+
+    color:
+        #172033;
+}
+
+.subject {
+    color:
+        var(--muted);
+
+    margin-top:
+        4px;
+
+    font-size:
+        16px;
+}
+
+.details {
+    margin-top:
+        12px;
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+
+    align-items:
+        center;
+
+    font-size:
+        15px;
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+.badge {
+    display:
+        inline-block;
+
+    padding:
+        5px 10px;
+
+    border-radius:
+        20px;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+}
+
+.badge.high {
+    background:
+        #fee2e2;
+
+    color:
+        #b91c1c;
+}
+
+.badge.medium {
+    background:
+        #fef3c7;
+
+    color:
+        #a16207;
+}
+
+.badge.low {
+    background:
+        #dcfce7;
+
+    color:
+        #15803d;
+}
+
+.badge.status-overdue {
+    background:
+        #fee2e2;
+
+    color:
+        #b91c1c;
+}
+
+.badge.status-soon {
+    background:
+        #ffedd5;
+
+    color:
+        #c2410c;
+}
+
+.badge.status-completed {
+    background:
+        #dcfce7;
+
+    color:
+        #15803d;
+}
+
+
+/* =====================================================
+   CARD BUTTONS
+===================================================== */
+
+.assignment-actions {
+    margin-top:
+        15px;
+}
+
+.assignment-actions button {
+    margin:
+        0 5px 5px 0;
+}
+
+.complete-btn {
+    background:
+        #16a34a;
+
+    color: white;
+
+    border: none;
+}
+
+.edit-btn {
+    background:
+        #2563eb;
+
+    color: white;
+
+    border: none;
+}
+
+.delete-btn {
+    background:
+        #ef4444;
+
+    color: white;
+
+    border: none;
+}
+
+
+/* =====================================================
+   EMPTY MESSAGE
+===================================================== */
+
+.empty-message {
+    padding:
+        30px;
+
+    text-align:
+        center;
+
+    background:
+        rgba(255,255,255,0.75);
+
+    border:
+        2px dashed
+        #cbd5e1;
+
+    border-radius:
+        12px;
+
+    font-size:
+        19px;
+}
+
+
+/* =====================================================
+   EDIT MODAL
+===================================================== */
+
+.modal {
+    display: none;
+
+    position: fixed;
+
+    z-index: 1000;
+
+    inset: 0;
+
+    background:
+        rgba(15,23,42,0.65);
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    padding: 15px;
+}
+
+.modal.show {
+    display:
+        flex;
+}
+
+.modal-content {
+    width:
+        500px;
+
+    max-width:
+        100%;
+
+    background:
+        #fffdf7;
+
+    border-radius:
+        12px;
+
+    padding:
+        25px;
+
+    box-shadow:
+        0 25px 60px
+        rgba(0,0,0,0.25);
+}
+
+.edit-field {
+    margin-bottom:
+        14px;
+}
+
+.edit-field label {
+    display:
+        block;
+
+    margin-bottom:
+        5px;
+
+    font-weight:
+        600;
+}
+
+.edit-field input,
+.edit-field select {
+    width:
+        100%;
+
+    height:
+        40px;
+}
+
+.modal-actions {
+    margin-top:
+        20px;
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+body.dark {
+    --background:
+        #0f172a;
+
+    --paper:
+        #1e293b;
+
+    --text:
+        #f8fafc;
+
+    --muted:
+        #cbd5e1;
+}
+
+body.dark .page {
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #1e293b 0px,
+            #1e293b 31px,
+            #334155 32px
+        );
+}
+
+body.dark h1,
+body.dark .assignment-title {
+    color:
+        #f8fafc;
+}
+
+body.dark input,
+body.dark select {
+    background:
+        #334155;
+
+    color:
+        #f8fafc;
+}
+
+body.dark .assignment,
+body.dark .stat-card {
+    background:
+        rgba(30,41,59,0.92);
+}
+
+body.dark .empty-message {
+    background:
+        rgba(30,41,59,0.85);
+}
+
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes pageLoad {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+.page {
+    animation:
+        pageLoad
+        0.5s
+        ease;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .page {
+        padding-left:
+            65px;
+    }
+
+    .dashboard {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .page {
+        margin:
+            8px;
+
+        padding:
+            30px 20px 50px 42px;
+    }
+
+    .page::before {
+        left:
+            27px;
+    }
+
+    h1 {
+        font-size:
+            27px;
+    }
+
+    .dashboard {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .assignment-form {
+        flex-direction:
+            column;
+    }
+
+    .assignment-form input[type="text"],
+    .assignment-form input[type="date"],
+    .assignment-form select {
+        width:
+            100%;
+    }
+
+    .search-box {
+        width:
+            100%;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<div id="loginPage" class="page">
+
+    <div>
+
+        <div class="logo">
+            <span class="green"></span>
+            <span class="pink"></span>
+            <span class="blue"></span>
+        </div>
+
+        <h1>
+            Assignment Manager
+        </h1>
+
+    </div>
+
+
+    <p>
+        Enter a username to load your assignments
+    </p>
+
+
+    <div class="login-form">
+
+        <input
+            type="text"
+            id="username"
+            class="username"
+            placeholder="e.g. alex"
+            autocomplete="off"
+        >
+
+        <button
+            class="login-btn"
+            onclick="login()"
+        >
+            Log In
+        </button>
+
+    </div>
+
+
+    <p>
+        No password needed — this keeps everyone's
+        assignment lists separate on this device.
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     ASSIGNMENT PAGE
+===================================================== -->
+
+<div id="assignmentPage" class="page">
+
+
+    <div class="topbar">
+
+        <div>
+
+            <div>
+
+                <div class="logo">
+                    <span class="green"></span>
+                    <span class="pink"></span>
+                    <span class="blue"></span>
+                </div>
+
+                <h1>
+                    Student Assignment Manager
+                </h1>
+
+            </div>
+
+
+            <div class="welcome">
+
+                Welcome,
+                <strong id="welcomeUser"></strong>! 👋
+
+            </div>
+
+        </div>
+
+
+        <div class="topbar-right">
+
+            <button
+                class="theme-btn"
+                id="themeButton"
+                onclick="toggleDarkMode()"
+                title="Toggle dark mode"
+            >
+                🌙
+            </button>
+
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <p>
+        Keep track of your homework, projects,
+        and deadlines.
+    </p>
+
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+    <div class="dashboard">
+
+
+        <div class="stat-card">
+
+            <span
+                class="stat-number"
+                id="totalCount"
+            >
+                0
+            </span>
+
+            <span class="stat-label">
+                Total
+            </span>
+
+        </div>
+
+
+        <div class="stat-card pending">
+
+            <span
+                class="stat-number"
+                id="pendingCount"
+            >
+                0
+            </span>
+
+            <span class="stat-label">
+                Pending
+            </span>
+
+        </div>
+
+
+        <div class="stat-card completed">
+
+            <span
+                class="stat-number"
+                id="completedCount"
+            >
+                0
+            </span>
+
+            <span class="stat-label">
+                Completed
+            </span>
+
+        </div>
+
+
+        <div class="stat-card overdue">
+
+            <span
+                class="stat-number"
+                id="overdueCount"
+            >
+                0
+            </span>
+
+            <span class="stat-label">
+                Overdue
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         ADD ASSIGNMENT
+    ================================================= -->
+
+    <div class="section-title">
+        Add Assignment
+    </div>
+
+
+    <div class="assignment-form">
+
+
+        <input
+            type="text"
+            id="title"
+            placeholder="Assignment title"
+        >
+
+
+        <input
+            type="text"
+            id="subject"
+            placeholder="Subject"
+        >
+
+
+        <input
+            type="date"
+            id="dueDate"
+        >
+
+
+        <select id="priority">
+
+            <option value="Medium">
+                Medium Priority
+            </option>
+
+            <option value="High">
+                High Priority
+            </option>
+
+            <option value="Low">
+                Low Priority
+            </option>
+
+        </select>
+
+
+        <button
+            class="add-btn"
+            onclick="addAssignment()"
+        >
+            + Add Assignment
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         SEARCH / SORT
+    ================================================= -->
+
+    <div class="tools">
+
+
+        <input
+            type="text"
+            id="search"
+            class="search-box"
+            placeholder="🔍 Search assignments..."
+            oninput="renderAssignments()"
+        >
+
+
+        <select
+            id="sortOrder"
+            class="sort-select"
+            onchange="renderAssignments()"
+        >
+
+            <option value="dateAsc">
+                Due Date: Earliest First
+            </option>
+
+            <option value="dateDesc">
+                Due Date: Latest First
+            </option>
+
+            <option value="priority">
+                Priority: High First
+            </option>
+
+            <option value="title">
+                Title: A-Z
+            </option>
+
+        </select>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================= -->
+
+    <div class="filters">
+
+
+        <button
+            id="filter-all"
+            class="active"
+            onclick="filterAssignments('all')"
+        >
+            All
+        </button>
+
+
+        <button
+            id="filter-pending"
+            onclick="filterAssignments('pending')"
+        >
+            Pending
+        </button>
+
+
+        <button
+            id="filter-completed"
+            onclick="filterAssignments('completed')"
+        >
+            Completed
+        </button>
+
+
+        <button
+            id="filter-overdue"
+            onclick="filterAssignments('overdue')"
+        >
+            Overdue
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         ASSIGNMENT LIST
+    ================================================= -->
+
+    <div id="assignmentList"></div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     EDIT MODAL
+===================================================== -->
+
+<div
+    id="editModal"
+    class="modal"
+    onclick="closeModalOutside(event)"
+>
+
+
+    <div
+        class="modal-content"
+        onclick="event.stopPropagation()"
+    >
+
+
+        <h2>
+            ✏️ Edit Assignment
+        </h2>
+
+
+        <input
+            type="hidden"
+            id="editId"
+        >
+
+
+        <div class="edit-field">
+
+            <label>
+                Assignment Title
+            </label>
+
+            <input
+                type="text"
+                id="editTitle"
+            >
+
+        </div>
+
+
+        <div class="edit-field">
+
+            <label>
+                Subject
+            </label>
+
+            <input
+                type="text"
+                id="editSubject"
+            >
+
+        </div>
+
+
+        <div class="edit-field">
+
+            <label>
+                Due Date
+            </label>
+
+            <input
+                type="date"
+                id="editDueDate"
+            >
+
+        </div>
+
+
+        <div class="edit-field">
+
+            <label>
+                Priority
+            </label>
+
+            <select id="editPriority">
+
+                <option value="High">
+                    High Priority
+                </option>
+
+                <option value="Medium">
+                    Medium Priority
+                </option>
+
+                <option value="Low">
+                    Low Priority
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="edit-btn"
+                onclick="saveEdit()"
+            >
+                Save Changes
+            </button>
+
+
+            <button
+                onclick="closeEditModal()"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentUser = "";
+
+let assignments = [];
+
+let currentFilter = "all";
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function login() {
+
+    const usernameInput =
+        document.getElementById("username");
+
+    const username =
+        usernameInput.value.trim();
+
+
+    if (username === "") {
+
+        alert(
+            "Please enter a username."
+        );
+
+        usernameInput.focus();
+
+        return;
+    }
+
+
+    currentUser = username;
+
+
+    localStorage.setItem(
+        "currentUser",
+        currentUser
+    );
+
+
+    loadUserAssignments();
+
+
+    showAssignmentPage();
+
+}
+
+
+/* =====================================================
+   LOAD USER
+===================================================== */
+
+function loadUserAssignments() {
+
+    const saved =
+        localStorage.getItem(
+            "assignments_" +
+            currentUser
+        );
+
+
+    if (saved) {
+
+        try {
+
+            assignments =
+                JSON.parse(saved);
+
+        } catch {
+
+            assignments = [];
+
+        }
+
+    } else {
+
+        assignments = [];
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW APP
+===================================================== */
+
+function showAssignmentPage() {
+
+    document.getElementById(
+        "loginPage"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "assignmentPage"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "welcomeUser"
+    ).textContent = currentUser;
+
+
+    renderAssignments();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout() {
+
+    currentUser = "";
+
+    assignments = [];
+
+    currentFilter = "all";
+
+
+    localStorage.removeItem(
+        "currentUser"
+    );
+
+
+    document.getElementById(
+        "assignmentPage"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "loginPage"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "username"
+    ).value = "";
+
+
+    document.getElementById(
+        "username"
+    ).focus();
+
+}
+
+
+/* =====================================================
+   ADD ASSIGNMENT
+===================================================== */
+
+function addAssignment() {
+
+    const title =
+        document.getElementById(
+            "title"
+        ).value.trim();
+
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value.trim();
+
+
+    const dueDate =
+        document.getElementById(
+            "dueDate"
+        ).value;
+
+
+    const priority =
+        document.getElementById(
+            "priority"
+        ).value;
+
+
+    if (!title) {
+
+        alert(
+            "Please enter an assignment title."
+        );
+
+        return;
+    }
+
+
+    if (!subject) {
+
+        alert(
+            "Please enter a subject."
+        );
+
+        return;
+    }
+
+
+    if (!dueDate) {
+
+        alert(
+            "Please select a due date."
+        );
+
+        return;
+    }
+
+
+    const assignment = {
+
+        id: Date.now(),
+
+        title: title,
+
+        subject: subject,
+
+        dueDate: dueDate,
+
+        priority: priority,
+
+        completed: false,
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+
+    assignments.push(
+        assignment
+    );
+
+
+    saveAssignments();
+
+
+    document.getElementById(
+        "title"
+    ).value = "";
+
+
+    document.getElementById(
+        "subject"
+    ).value = "";
+
+
+    document.getElementById(
+        "dueDate"
+    ).value = "";
+
+
+    document.getElementById(
+        "priority"
+    ).value = "Medium";
+
+
+    renderAssignments();
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function saveAssignments() {
+
+    localStorage.setItem(
+
+        "assignments_" +
+        currentUser,
+
+        JSON.stringify(
+            assignments
+        )
+
+    );
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderAssignments() {
+
+    const list =
+        document.getElementById(
+            "assignmentList"
+        );
+
+
+    const search =
+        document.getElementById(
+            "search"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    let filtered =
+        assignments.filter(
+            assignment => {
+
+
+                if (
+                    currentFilter === "pending" &&
+                    assignment.completed
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    currentFilter === "completed" &&
+                    !assignment.completed
+                ) {
+                    return false;
+                }
+
+
+                if (
+                    currentFilter === "overdue" &&
+                    (
+                        assignment.completed ||
+                        !isOverdue(
+                            assignment.dueDate
+                        )
+                    )
+                ) {
+                    return false;
+                }
+
+
+                if (search !== "") {
+
+                    const text =
+                        (
+                            assignment.title +
+                            " " +
+                            assignment.subject +
+                            " " +
+                            assignment.priority
+                        )
+                        .toLowerCase();
+
+
+                    if (
+                        !text.includes(search)
+                    ) {
+
+                        return false;
+
+                    }
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+    const sort =
+        document.getElementById(
+            "sortOrder"
+        ).value;
+
+
+    filtered.sort(
+        (a, b) => {
+
+            if (
+                sort === "dateAsc"
+            ) {
+
+                return (
+                    new Date(a.dueDate) -
+                    new Date(b.dueDate)
+                );
+
+            }
+
+
+            if (
+                sort === "dateDesc"
+            ) {
+
+                return (
+                    new Date(b.dueDate) -
+                    new Date(a.dueDate)
+                );
+
+            }
+
+
+            if (
+                sort === "title"
+            ) {
+
+                return a.title.localeCompare(
+                    b.title
+                );
+
+            }
+
+
+            if (
+                sort === "priority"
+            ) {
+
+                const values = {
+
+                    High: 1,
+
+                    Medium: 2,
+
+                    Low: 3
+
+                };
+
+
+                return (
+                    values[a.priority] -
+                    values[b.priority]
+                );
+
+            }
+
+
+            return 0;
+
+        }
+    );
+
+
+    updateStatistics();
+
+
+    if (
+        filtered.length === 0
+    ) {
+
+        let message =
+            "No assignments yet. Add one above! 🎉";
+
+
+        if (
+            assignments.length > 0
+        ) {
+
+            if (search) {
+
+                message =
+                    "No assignments match your search. 🔍";
+
+            }
+
+            else if (
+                currentFilter === "pending"
+            ) {
+
+                message =
+                    "No pending assignments. 🎉";
+
+            }
+
+            else if (
+                currentFilter === "completed"
+            ) {
+
+                message =
+                    "No completed assignments yet.";
+
+            }
+
+            else if (
+                currentFilter === "overdue"
+            ) {
+
+                message =
+                    "No overdue assignments. 🎉";
+
+            }
+
+        }
+
+
+        list.innerHTML =
+            `
+            <p class="empty-message">
+                ${message}
+            </p>
+            `;
+
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    filtered.forEach(
+        assignment => {
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            let className =
+                "assignment";
+
+
+            if (
+                assignment.completed
+            ) {
+
+                className +=
+                    " completed";
+
+            }
+
+            else if (
+                isOverdue(
+                    assignment.dueDate
+                )
+            ) {
+
+                className +=
+                    " overdue";
+
+            }
+
+            else if (
+                isDueSoon(
+                    assignment.dueDate
+                )
+            ) {
+
+                className +=
+                    " due-soon";
+
+            }
+
+
+            card.className =
+                className;
+
+
+            card.innerHTML = `
+
+                <div>
+
+                    <div class="assignment-title">
+
+                        ${escapeHTML(
+                            assignment.title
+                        )}
+
+                    </div>
+
+
+                    <div class="subject">
+
+                        📚 Subject:
+                        ${escapeHTML(
+                            assignment.subject
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="details">
+
+                    <span>
+                        📅
+                        ${formatDate(
+                            assignment.dueDate
+                        )}
+                    </span>
+
+
+                    <span
+                        class="badge ${assignment.priority.toLowerCase()}"
+                    >
+                        ${assignment.priority}
+                        Priority
+                    </span>
+
+
+                    ${getStatus(
+                        assignment
+                    )}
+
+                </div>
+
+
+                <div class="assignment-actions">
+
+
+                    <button
+                        class="complete-btn"
+                        onclick="
+                            toggleComplete(
+                                ${assignment.id}
+                            )
+                        "
+                    >
+
+                        ${
+                            assignment.completed
+                            ? "↩ Mark Pending"
+                            : "✓ Complete"
+                        }
+
+                    </button>
+
+
+                    <button
+                        class="edit-btn"
+                        onclick="
+                            openEditModal(
+                                ${assignment.id}
+                            )
+                        "
+                    >
+                        ✏️ Edit
+                    </button>
+
+
+                    <button
+                        class="delete-btn"
+                        onclick="
+                            deleteAssignment(
+                                ${assignment.id}
+                            )
+                        "
+                    >
+                        🗑️ Delete
+                    </button>
+
+
+                </div>
+
+            `;
+
+
+            list.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function getStatus(
+    assignment
+) {
+
+    if (
+        assignment.completed
+    ) {
+
+        return `
+            <span
+                class="badge status-completed"
+            >
+                ✓ Completed
+            </span>
+        `;
+
+    }
+
+
+    if (
+        isOverdue(
+            assignment.dueDate
+        )
+    ) {
+
+        return `
+            <span
+                class="badge status-overdue"
+            >
+                🔴 Overdue
+            </span>
+        `;
+
+    }
+
+
+    if (
+        isDueSoon(
+            assignment.dueDate
+        )
+    ) {
+
+        return `
+            <span
+                class="badge status-soon"
+            >
+                🟠 Due Soon
+            </span>
+        `;
+
+    }
+
+
+    return `
+        <span class="badge">
+            ⏳ Pending
+        </span>
+    `;
+
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+
+function updateStatistics() {
+
+    const total =
+        assignments.length;
+
+
+    const completed =
+        assignments.filter(
+            a => a.completed
+        ).length;
+
+
+    const pending =
+        assignments.filter(
+            a => !a.completed
+        ).length;
+
+
+    const overdue =
+        assignments.filter(
+            a =>
+                !a.completed &&
+                isOverdue(
+                    a.dueDate
+                )
+        ).length;
+
+
+    document.getElementById(
+        "totalCount"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).textContent = pending;
+
+
+    document.getElementById(
+        "completedCount"
+    ).textContent = completed;
+
+
+    document.getElementById(
+        "overdueCount"
+    ).textContent = overdue;
+
+}
+
+
+/* =====================================================
+   COMPLETE
+===================================================== */
+
+function toggleComplete(id) {
+
+    assignments =
+        assignments.map(
+            assignment => {
+
+                if (
+                    assignment.id === id
+                ) {
+
+                    return {
+
+                        ...assignment,
+
+                        completed:
+                            !assignment.completed
+
+                    };
+
+                }
+
+
+                return assignment;
+
+            }
+        );
+
+
+    saveAssignments();
+
+    renderAssignments();
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function deleteAssignment(id) {
+
+    const assignment =
+        assignments.find(
+            a => a.id === id
+        );
+
+
+    if (!assignment) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            `Delete "${assignment.title}"?`
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    assignments =
+        assignments.filter(
+            a => a.id !== id
+        );
+
+
+    saveAssignments();
+
+    renderAssignments();
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function openEditModal(id) {
+
+    const assignment =
+        assignments.find(
+            a => a.id === id
+        );
+
+
+    if (!assignment) {
+        return;
+    }
+
+
+    document.getElementById(
+        "editId"
+    ).value = assignment.id;
+
+
+    document.getElementById(
+        "editTitle"
+    ).value = assignment.title;
+
+
+    document.getElementById(
+        "editSubject"
+    ).value = assignment.subject;
+
+
+    document.getElementById(
+        "editDueDate"
+    ).value = assignment.dueDate;
+
+
+    document.getElementById(
+        "editPriority"
+    ).value = assignment.priority;
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   SAVE EDIT
+===================================================== */
+
+function saveEdit() {
+
+    const id =
+        Number(
+            document.getElementById(
+                "editId"
+            ).value
+        );
+
+
+    const title =
+        document.getElementById(
+            "editTitle"
+        ).value.trim();
+
+
+    const subject =
+        document.getElementById(
+            "editSubject"
+        ).value.trim();
+
+
+    const dueDate =
+        document.getElementById(
+            "editDueDate"
+        ).value;
+
+
+    const priority =
+        document.getElementById(
+            "editPriority"
+        ).value;
+
+
+    if (
+        !title ||
+        !subject ||
+        !dueDate
+    ) {
+
+        alert(
+            "Please fill in all fields."
+        );
+
+        return;
+
+    }
+
+
+    assignments =
+        assignments.map(
+            assignment => {
+
+                if (
+                    assignment.id === id
+                ) {
+
+                    return {
+
+                        ...assignment,
+
+                        title: title,
+
+                        subject: subject,
+
+                        dueDate: dueDate,
+
+                        priority: priority
+
+                    };
+
+                }
+
+
+                return assignment;
+
+            }
+        );
+
+
+    saveAssignments();
+
+    closeEditModal();
+
+    renderAssignments();
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeEditModal() {
+
+    document.getElementById(
+        "editModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+function closeModalOutside(
+    event
+) {
+
+    if (
+        event.target.id ===
+        "editModal"
+    ) {
+
+        closeEditModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   FILTER
+===================================================== */
+
+function filterAssignments(
+    filter
+) {
+
+    currentFilter =
+        filter;
+
+
+    document
+        .querySelectorAll(
+            ".filters button"
+        )
+        .forEach(
+            button => {
+
+                button.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "filter-" +
+            filter
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    renderAssignments();
+
+}
+
+
+/* =====================================================
+   OVERDUE
+===================================================== */
+
+function isOverdue(
+    dateString
+) {
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const dueDate =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    return (
+        dueDate < today
+    );
+
+}
+
+
+/* =====================================================
+   DUE SOON
+===================================================== */
+
+function isDueSoon(
+    dateString
+) {
+
+    const today =
+        new Date();
+
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+    const dueDate =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    const difference =
+        dueDate - today;
+
+
+    const days =
+        difference /
+        (
+            1000 *
+            60 *
+            60 *
+            24
+        );
+
+
+    return (
+        days >= 0 &&
+        days <= 3
+    );
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(
+    dateString
+) {
+
+    const date =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHTML(
+    text
+) {
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    const dark =
+        document.body.classList.contains(
+            "dark"
+        );
+
+
+    localStorage.setItem(
+        "darkMode",
+        dark
+    );
+
+
+    updateThemeButton();
+
+}
+
+
+function updateThemeButton() {
+
+    const button =
+        document.getElementById(
+            "themeButton"
+        );
+
+
+    if (
+        document.body.classList.contains(
+            "dark"
+        )
+    ) {
+
+        button.textContent =
+            "☀️";
+
+    }
+
+    else {
+
+        button.textContent =
+            "🌙";
+
+    }
+
+}
+
+
+/* =====================================================
+   ENTER KEY
+===================================================== */
+
+document
+    .getElementById(
+        "username"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                login();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "title"
+    )
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                addAssignment();
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   START APP
+===================================================== */
+
+window.onload =
+    function() {
+
+
+        const darkMode =
+            localStorage.getItem(
+                "darkMode"
+            );
+
+
+        if (
+            darkMode === "true"
+        ) {
+
+            document.body.classList.add(
+                "dark"
+            );
+
+        }
+
+
+        updateThemeButton();
+
+
+        const savedUser =
+            localStorage.getItem(
+                "currentUser"
+            );
+
+
+        if (savedUser) {
+
+            currentUser =
+                savedUser;
+
+
+            loadUserAssignments();
+
+
+            showAssignmentPage();
+
+        }
+
+    };
+
+</script>
+
+</body>
+</html>
